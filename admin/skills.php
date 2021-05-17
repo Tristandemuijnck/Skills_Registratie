@@ -187,7 +187,7 @@ function registerSkills(){
 
     <?php
 
-    $query = "SELECT * FROM skills_med ORDER BY medewerker_ID ASC";
+    $query = "SELECT * FROM medewerker ORDER BY medewerker_ID ASC";
     $query_run = mysqli_query($connection, $query);
 
     ?>
@@ -197,6 +197,7 @@ function registerSkills(){
               <th> ID </th>
               <!-- <th> Gebruikersnaam</th> -->
               <th> Naam</th>
+              <th> Achternaam</th>
               <th> Meer Info</th>
               <th> Edit </th>
               <th> Delete </th>
@@ -215,6 +216,7 @@ function registerSkills(){
             <tr>
               <td> <?php echo $row['medewerker_ID']; ?> </td>
               <td> <?php echo $row['naam']; ?> </td>
+              <td> <?php echo $row['achternaam']; ?> </td>
               <td>
                 <form action="skills_info.php" method="post">
                   <input type="hidden" name="info_id" value="<?php echo $row['medewerker_ID']; ?>">
