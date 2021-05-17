@@ -1,0 +1,15 @@
+.faq-heading{
+    width: 100%;
+    background-color: rgb(228, 0, 43);
+    color: white;
+}
+
+.faq-heading-row{
+    background-color: rgb(228, 0, 43);
+}
+
+.faq-h1{
+    text-align: center;
+    color: white;
+    padding: 3%;
+}
