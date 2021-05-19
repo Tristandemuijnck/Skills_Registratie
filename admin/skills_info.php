@@ -73,11 +73,13 @@ function showInfo(){
     $run_get_skills = mysqli_query($connection, $get_skills);
     if(mysqli_num_rows($run_get_skills) > 0){
         while($row = mysqli_fetch_assoc($run_get_skills)){
+            $skills_id = $row['medewerker_ID'];
             $skills_naam = $row['naam'];
             $skills_skill = $row['skill'];
             $skills_niveau = $row['niveau'];
         }
         echo "
+            <p><b>Medewerker ID :</b> $skills_id</p>
             <p><b>Medewerker Naam :</b> $skills_naam</p>
             <p><b>Skill :</b> $skills_skill</p>
             <p><b>Niveau :</b> $skills_niveau</p>
