@@ -218,7 +218,7 @@ function registerSkills(){
               <td> <?php echo $row['naam']; ?> </td>
               <td> <?php echo $row['achternaam']; ?> </td>
               <td>
-                <form action="skills_info.php" method="post">
+                <form action="skills_info.php?id=<?php echo $row['medewerker_ID']; ?>" method="post">
                   <input type="hidden" name="info_id" value="<?php echo $row['medewerker_ID']; ?>">
                   <button type="submit" name="info_skills" class="btn btn-success"> Meer info</button>
                 </form>
@@ -254,7 +254,7 @@ function registerSkills(){
   </div>
 
 </div>
-<!-- /.container-fluid -->
+<!-- /.container-fluid. -->
 
 <?php
 include('includes/scripts.php');
