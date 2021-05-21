@@ -224,7 +224,7 @@ function registerSkills(){
                 </form>
               </td>
               <td>
-                <form action="skills_edit.php" method="post">
+                <form action="skills_edit.php?id=<?php echo $row['medewerker_ID']; ?>" method="post">
                   <input type="hidden" name="edit_id" value="<?php echo $row['medewerker_ID']; ?>">
                   <button type="submit" name="edit_skills" class="btn btn-success"> Edit</button>
                 </form>
