@@ -689,30 +689,24 @@ if(isset($_POST['skill_registratie'])){
         }
 
     }
+}
 
-    // skills verwijderen.
-    if(isset($_POST['skills_delete'])){
+// Skills verwijderen.
+if(isset($_POST['skills_delete'])){
 
-        $med_id = $_POST['delete_id']; 
+    $med_id = $_POST['delete_skills_id']; 
 
-        $query = "DELETE FROM skills_med WHERE medewerker_ID ='$med_id' ";
-        $query_run = mysqli_query($connection, $query);
+    $query = "DELETE FROM skills_med WHERE medewerker_ID='$med_id' ";
+    $query_run = mysqli_query($connection, $query);
     
-        if($query_run){
-            $_SESSION['succes'] = "skills zijn verwijderd";
-            header('Location: skills.php');
-        }
-        else{
-            $_SESSION['status'] = "skills zijn niet verwijderd";
-            header('Location: skills.php');
-    
-        }
+    if($query_run){
+        $_SESSION['succes'] = "skills zijn verwijderd";
+        header('Location: skills.php');
+    }
+    else{
+        $_SESSION['status'] = "skills zijn niet verwijderd";
+        header('Location: skills.php');
     
     }
 }
-
-
-
-
-
 ?>

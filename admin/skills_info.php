@@ -90,6 +90,11 @@ function showInfo(){
         }
         
     }
+    else{
+        echo "
+        <p><b>Geen skill registratie bekend bij deze medewerker.</b></p>
+        ";
+    }
 }
 
 ?>

@@ -231,7 +231,7 @@ function registerSkills(){
               </td>
               <td>
                 <form action="code.php" method="post">
-                  <input type="hidden" name="delete_id" value=" <?php echo $row['medewerker_ID']; ?> ">
+                  <input type="hidden" name="delete_skills_id" value=" <?php echo $row['medewerker_ID']; ?> ">
                   <button type="submit" name="skills_delete" class="btn btn-danger"> Delete</button>
                 </form>
               </td>
