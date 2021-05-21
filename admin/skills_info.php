@@ -5,10 +5,6 @@ include('geentoegang.php');
 include('includes/header.php'); 
 include('includes/navbar.php'); 
 
-if (isset($_POST['info_skills'])){
-    showInfo();
-}
-
 // Skills printen
 function showSkills(){
     include('database/dbconfig.php');
@@ -71,19 +67,28 @@ function showInfo(){
     $medewerker_id = $_GET['id'];
     $get_skills = "SELECT * FROM skills_med where medewerker_ID='$medewerker_id'";
     $run_get_skills = mysqli_query($connection, $get_skills);
+
     if(mysqli_num_rows($run_get_skills) > 0){
-        while($row = mysqli_fetch_assoc($run_get_skills)){
-            $skills_id = $row['medewerker_ID'];
-            $skills_naam = $row['naam'];
+
+        $row = mysqli_fetch_assoc($run_get_skills);
+        $skills_id = $row['medewerker_ID'];
+        $skills_naam = $row['naam'];
+
+        echo "
+        <p><b>Medewerker ID :</b> $skills_id</p>
+        <p><b>Medewerker Naam :</b> $skills_naam</p>
+        ";
+
+        foreach($run_get_skills as $row){
             $skills_skill = $row['skill'];
             $skills_niveau = $row['niveau'];
+
+            echo '
+            <p><b>Skill :</b> '.$skills_skill.'</p>
+            <p><b>Niveau :</b> '.$skills_niveau.'</p>
+            ';
         }
-        echo "
-            <p><b>Medewerker ID :</b> $skills_id</p>
-            <p><b>Medewerker Naam :</b> $skills_naam</p>
-            <p><b>Skill :</b> $skills_skill</p>
-            <p><b>Niveau :</b> $skills_niveau</p>
-            ";
+        
     }
 }
 
@@ -99,17 +104,11 @@ function showInfo(){
 
     <div class="card-body">
         <div class="table-responsive">
-            <p><b>Medewerker ID :</b> hier komt medewerker id</p>
-            <p><b>Medewerker Naam :</b> hier komt medewerker naam</p>
-            <p><b>Medewerker Achternaam :</b> hier komt medewerker achternaam</p><br>
-
-            <!-- For loop met skills en niveau. -->
-            <p><b>Skillnaam :</b> skillniveau</p>
-
             <?php
-            showInfo();
+            if (isset($_POST['info_skills'])){
+                showInfo();
+            }
             ?>
-           
         </div>
     </div>
   </div>
