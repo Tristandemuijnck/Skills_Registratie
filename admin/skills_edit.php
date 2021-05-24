@@ -5,6 +5,8 @@ include('geentoegang.php');
 include('includes/header.php'); 
 include('includes/navbar.php'); 
 
+$medewerker_id = $_GET['id'];
+
 function showNameId(){
   include('database/dbconfig.php');
 
@@ -22,10 +24,12 @@ function showNameId(){
       <p><b>Medewerker ID :</b> $skills_id</p>
       <p><b>Medewerker Naam :</b> $skills_naam</p>
       ";
-        } else {
-            echo "
-             <p><b>Geen medewerker bekend</b></p>
-            ";
+
+      editSkills();
+  }else {
+          echo "
+            <p><b>Geen registratie bekend bij deze medewerker</b></p>
+          ";
         }
 }
 
@@ -61,9 +65,6 @@ function editSkills(){
 
   echo "";
 }
-
-
-
 ?>
 
 <!-- Skills weergeven -->
@@ -75,16 +76,17 @@ function editSkills(){
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <?php
-            if (isset($_POST['edit_skills'])){
-                showNameId();
-                editSkills();
-            }
-            ?>
-            <a href="skills.php" class="btn btn-danger"> Cancel </a>
-            <button type="submit" name="edit_skills" class="btn btn-primary"> Update </button>
-        </div>
+        <form action="code.php?id=<?php echo $medewerker_id; ?>" method="POST">
+          <div class="table-responsive">
+              <?php
+              if (isset($_POST['edit_skills'])){
+                  showNameId();
+              }
+              ?>
+              <a href="skills.php" class="btn btn-danger"> Cancel </a>
+              <button type="submit" name="save_skills" class="btn btn-primary"> Update </button>
+          </div>
+        </form>
     </div>
   </div>
 </div>
@@ -93,6 +95,41 @@ function editSkills(){
 <?php
 include('includes/scripts.php');
 include('includes/footer.php');
+
+// if (isset($_POST['save_skills'])){
+//   include('database/dbconfig.php');
+
+//   //Medewerker ID
+//   $medewerker_id = $_GET['id'];
+
+//   //Loop met waardes van alle velden
+
+//   $sql_skills = "SELECT * FROM skills";
+//   $sql_skills_run = mysqli_query($connection, $sql_skills);
+
+//   if(mysqli_num_rows($sql_skills_run) > 0){
+//     for ($i = 0; $i < mysqli_num_rows($sql_skills_run); $i++){
+//         $row = mysqli_fetch_assoc($sql_skills_run);
+//         $skill_naam = $row['skills_name'];
+
+//         // Niveau waarde uit form halen
+//         $niveau_waarde = "niveau_veld".$i;
+//         $skill_niveau = $_POST[$niveau_waarde];
+
+//         $query = "UPDATE skills_med SET niveau='$skill_niveau' WHERE medewerker_ID='$medewerker_id' AND skill='$skill_naam'";
+//         $query_run = mysqli_query($connection, $query);
+
+//         if($query_run){
+//             $_SESSION['succes'] = "Skills aangepast";
+//             header('Location: skills.php');
+//         }
+//         else{
+//             $_SESSION['status'] = "Skills niet aangepast";
+//             header('Location: skills.php');
+//         }
+//     }
+// }
+// }
 ?>
 
  

@@ -664,32 +664,99 @@ if(isset($_POST['skill_registratie'])){
             }
         }
     }
+}
 
 // Edit Skills
+if (isset($_POST['save_skills'])){
+    include('database/dbconfig.php');
+  
+    //Medewerker ID
+    $medewerker_id = $_GET['id'];
 
-    //Medewerker_ID ophalen en bijhorende skills ophalen met values (for loop)
-    if(isset($_POST['edit_skills'])){
+    //Get skills from user
+    $sql_med_skill_check = "SELECT * FROM skills_med WHERE medewerker_ID='$medewerker_id'";
+    $sql_med_skill_check_run = mysqli_query($connection, $sql_med_skill_check);
 
-    $medewerker_id = $_POST['edit_id']; 
-    
-    // $sql_med_skills = "SELECT * FROM skills_med where medewerker_ID='$medewerker_id'";
-    // $sql_med_skills_run = mysqli_query($connection, $sql_med_skills);
-
-    $query = "UPDATE skills_med SET  naam='$medewerker_name', skill='$skill_naam',  niveau='$skill_niveau' WHERE medewerker_ID=$id";
-    $query_run = mysqli_query($connection, $query);
-
-    if($query_run){
-        $_SESSION['succes'] = "Skills aangepast";
-        header('Location: skills.php');
+    if(mysqli_num_rows($sql_med_skill_check_run) > 0){
+        for ($a=0; $a < mysqli_num_rows($sql_med_skill_check_run); $a++) { 
+            $row1 = mysqli_fetch_assoc($sql_med_skill_check_run);
+            $skill_naam1 = $row1['skill'];
+        }
     }
-    else{
-        $_SESSION['status'] = "Skills niet aangepast";
-        header('Location: skills.php');
+  
+    //Loop met waardes van alle velden
+  
+    $sql_skills = "SELECT * FROM skills";
+    $sql_skills_run = mysqli_query($connection, $sql_skills);
+  
+    if(mysqli_num_rows($sql_skills_run) > 0){
+        for ($i = 0; $i < mysqli_num_rows($sql_skills_run); $i++){
+            $row = mysqli_fetch_assoc($sql_skills_run);
+            $skill_naam = $row['skills_name'];
+    
+            // Niveau waarde uit form halen
+            $niveau_veld_variable = 'niveau_veld'.$i;
+            $skill_niveau = $_POST[$niveau_veld_variable];
 
         }
 
+        //Als skill nog niet bestaat maak een nieuwe entry met waarde aan bij gebruiker
+        if($skill_naam == $skill_naam1){
+            //Update skills
+            $query = "UPDATE skills_med SET niveau='$skill_niveau' WHERE medewerker_ID='$medewerker_id' AND skill='$skill_naam'";
+            $query_run = mysqli_query($connection, $query);
+
+            if($query_run){
+                $_SESSION['succes'] = "Skills aangepast";
+                header('Location: skills.php');
+            }
+            else{
+                $_SESSION['status'] = "Skills update werkt niet";
+                header('Location: skills.php');
+            }
+        }
+        else{
+
+            $sql_med_name = "SELECT * FROM medewerker WHERE medewerker_ID='$medewerker_id'";
+            $sql_med_name_run = mysqli_query($connection, $sql_med_name);
+
+            if(mysqli_num_rows($sql_med_name_run) > 0){
+                while($row = mysqli_fetch_assoc($sql_med_name_run))
+                {
+                    $medewerker_name = $row['naam'];
+                }
+            }
+            else{
+                $_SESSION['status'] = "Geen medewerker gevonden";
+                header('Location: skills.php');
+            }
+
+            //insert nieuw skill met waarde
+            $query_new_skill = "INSERT INTO skills_med (medewerker_ID, naam, skill, niveau) VALUES ('$medewerker_id','$medewerker_name','$skill_naam','$skill_niveau')";
+            $query_new_skill_run = mysqli_query($connection, $query_new_skill);
+
+            if($query_new_skill_run){
+                //Update skills
+                $query = "UPDATE skills_med SET niveau='$skill_niveau' WHERE medewerker_ID='$medewerker_id' AND skill='$skill_naam'";
+                $query_run = mysqli_query($connection, $query);
+
+                if($query_run){
+                    $_SESSION['succes'] = "Skills aangepast";
+                    header('Location: skills.php');
+                }
+                else{
+                    $_SESSION['status'] = "Skills update werkt niet";
+                    header('Location: skills.php');
+                }
+            }
+            else{
+                $_SESSION['status'] = "Skills niet aangepast";
+                header('Location: skills.php');
+            }
+        }
     }
 }
+
 
 // Skills verwijderen.
 if(isset($_POST['skills_delete'])){
