@@ -696,24 +696,36 @@ if (isset($_POST['save_skills'])){
     
             // Niveau waarde uit form halen
             $niveau_veld_variable = 'niveau_veld'.$i;
-            $skill_niveau = $_POST[$niveau_veld_variable];
-
+            $skill_niveau = $_POST[$niveau_veld_variable]; 
+            
+             //Update skills
+             $query_skill_update = "UPDATE skills_med SET niveau='$skill_niveau' WHERE medewerker_ID='$medewerker_id' AND skill='$skill_naam'";
+             $query_skill_update_run = mysqli_query($connection, $query_skill_update);
+ 
+             if($query_skill_update_run){
+                 $_SESSION['succes'] = "Skills update werkt";
+                 header('Location: skills.php');
+             }
+             else{
+                 $_SESSION['status'] = "Skills update werkt niet";
+                 header('Location: skills.php');
+             }
         }
 
         //Als skill nog niet bestaat maak een nieuwe entry met waarde aan bij gebruiker
         if($skill_naam == $skill_naam1){
-            //Update skills
-            $query = "UPDATE skills_med SET niveau='$skill_niveau' WHERE medewerker_ID='$medewerker_id' AND skill='$skill_naam'";
-            $query_run = mysqli_query($connection, $query);
+            // //Update skills
+            // $query_skill_update = "UPDATE skills_med SET niveau='$skill_niveau' WHERE medewerker_ID='$medewerker_id' AND skill='$skill_naam'";
+            // $query_skill_update_run = mysqli_query($connection, $query_skill_update);
 
-            if($query_run){
-                $_SESSION['succes'] = "Skills aangepast";
-                header('Location: skills.php');
-            }
-            else{
-                $_SESSION['status'] = "Skills update werkt niet";
-                header('Location: skills.php');
-            }
+            // if($query_skill_update_run){
+            //     $_SESSION['succes'] = "Skills update werkt";
+            //     header('Location: skills.php');
+            // }
+            // else{
+            //     $_SESSION['status'] = "Skills update werkt niet";
+            //     header('Location: skills.php');
+            // }
         }
         else{
 
@@ -741,11 +753,11 @@ if (isset($_POST['save_skills'])){
                 $query_run = mysqli_query($connection, $query);
 
                 if($query_run){
-                    $_SESSION['succes'] = "Skills aangepast";
+                    $_SESSION['succes'] = "Skills update na insert werkt";
                     header('Location: skills.php');
                 }
                 else{
-                    $_SESSION['status'] = "Skills update werkt niet";
+                    $_SESSION['status'] = "Skills update na insert werkt niet";
                     header('Location: skills.php');
                 }
             }
