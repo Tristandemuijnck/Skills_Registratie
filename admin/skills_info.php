@@ -65,7 +65,7 @@ function showInfo(){
     include('database/dbconfig.php');
 
     $medewerker_id = $_GET['id'];
-    $get_skills = "SELECT * FROM skills_med where medewerker_ID='$medewerker_id'";
+    $get_skills = "SELECT * FROM skills_med where medewerker_ID='$medewerker_id' ORDER BY niveau DESC";
     $run_get_skills = mysqli_query($connection, $get_skills);
 
     if(mysqli_num_rows($run_get_skills) > 0){
@@ -75,18 +75,78 @@ function showInfo(){
         $skills_naam = $row['naam'];
 
         echo "
-        <p><b>Medewerker ID :</b> $skills_id</p>
-        <p><b>Medewerker Naam :</b> $skills_naam</p>
+        <h5><b>Medewerker ID :</b> $skills_id</h5>
+        <h5><b>Medewerker Naam :</b> $skills_naam</h5><br>
         ";
 
         foreach($run_get_skills as $row){
             $skills_skill = $row['skill'];
             $skills_niveau = $row['niveau'];
 
-            echo '
-            <p><b>Skill :</b> '.$skills_skill.'</p>
-            <p><b>Niveau :</b> '.$skills_niveau.'</p>
-            ';
+            switch ($skills_niveau){
+                case "1":
+                    echo '
+                        <h3><b>'.$skills_skill.'</b>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="'.$skills_niveau.'" aria-valuemin="0" aria-valuemax="5">'.$skills_niveau.'</div>
+                        </div>
+                        </h3><br>
+                    ';
+                    break;
+
+                case "2":
+                    echo '
+                        <h3><b>'.$skills_skill.'</b>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="'.$skills_niveau.'" aria-valuemin="0" aria-valuemax="5">'.$skills_niveau.'</div>
+                        </div>
+                        </h3><br>
+                    ';
+                    break;
+                
+                case "3":
+                    echo '
+                        <h3><b>'.$skills_skill.'</b>
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="'.$skills_niveau.'" aria-valuemin="0" aria-valuemax="5">'.$skills_niveau.'</div>
+                        </div>
+                        </h3><br>
+                    ';
+                    break;
+
+                case "4":
+                    echo '
+                        <h3><b>'.$skills_skill.'</b>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%" aria-valuenow="'.$skills_niveau.'" aria-valuemin="0" aria-valuemax="5">'.$skills_niveau.'</div>
+                        </div>
+                        </h3><br>
+                    ';
+                    break;
+
+                case "5":
+                    echo '
+                        <h3><b>'.$skills_skill.'</b>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="'.$skills_niveau.'" aria-valuemin="0" aria-valuemax="5">'.$skills_niveau.'</div>
+                        </div>
+                        </h3><br>
+                    ';
+                    break;
+
+                default:
+                    echo 'Geen waarde beschikbaar';
+            }
+
+            // Print als er geen switch is
+            
+            // echo '
+            // <p><b>Skill :</b> '.$skills_skill.'
+            // <div class="progress">
+            //     <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="'.$skills_niveau.'" aria-valuemin="0" aria-valuemax="5">'.$skills_niveau.'</div>
+            // </div>
+            // <b>Niveau :</b> '.$skills_niveau.'</p>
+            // ';
         }
         
     }
