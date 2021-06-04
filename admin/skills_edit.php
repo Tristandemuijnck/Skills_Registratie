@@ -58,6 +58,7 @@ function editSkills(){
             </div>
           ';
     }
+    echo '<button type="submit" name="save_skills" class="btn btn-primary"> Update </button>';
     }
     else{
             echo "No Record Found";
@@ -84,7 +85,7 @@ function editSkills(){
               }
               ?>
               <a href="skills.php" class="btn btn-danger"> Cancel </a>
-              <button type="submit" name="save_skills" class="btn btn-primary"> Update </button>
+              <!-- <button type="submit" name="save_skills" class="btn btn-primary"> Update </button> -->
           </div>
         </form>
     </div>
